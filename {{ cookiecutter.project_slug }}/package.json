@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "@playwright/test": "1.52.0",
+    "dotenv": "16.5.0",
+    "ts-node": "10.9.2",
+    "typescript": "5.8.3"
+  },
+  "devDependencies": {
+    "checkly": "5.3.1"
+  }
+}

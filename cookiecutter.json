@@ -1,0 +1,15 @@
+{
+    "target_project": "Name of the target repo being tested (e.g. 'workforce-one')",
+    "environment_url": "URL of the environment to test (e.g. 'https://app.inv.tech/')",
+    "project_name": "{{ cookiecutter.target_project }}_e2e",
+    "project_slug": "{{ cookiecutter.project_name.lower().replace('_', '-').replace(' ', '-') }}",
+    "project_short_description": "E2E testing suite for {{ cookiecutter.target_project }}",
+    "first_name": "Your first name",
+    "last_name": "Your last name",
+    "email": "{{ cookiecutter.first_name.lower() }}.{{ cookiecutter.last_name.lower() }}@invisible.email",
+    "release_date": "{% now 'local' %}",
+    "_copy_without_render": [
+        "node_modules/**",
+        "bun.lock"
+    ]
+}
