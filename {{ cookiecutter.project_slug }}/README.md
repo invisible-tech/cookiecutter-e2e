@@ -1,4 +1,4 @@
-# {{ cookiecutter.project\_name }}
+# {{ cookiecutter.project_name }}
 
 End-to-end (E2E) testing suite for `{{ cookiecutter.target_project }}`. This repository is intended to live independently of the main application and is responsible for running and deploying browser and API checks using [Checkly](https://checklyhq.com).
 
