@@ -5,9 +5,11 @@ on:
     branches:
       - main
 
+{% raw %}
 env:
   CHECKLY_API_KEY: ${{ secrets.CHECKLY_API_KEY }}
   CHECKLY_ACCOUNT_ID: ${{ secrets.CHECKLY_ACCOUNT_ID }}
+{% endraw %}
 
 jobs:
   deploy-checks:
