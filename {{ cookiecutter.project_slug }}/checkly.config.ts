@@ -33,10 +33,5 @@ export default defineConfig({
 
   cli: {
     runLocation: 'us-east-1'
-  },
-
-  alertSettings: {
-    escalationType: 'RUN_BASED',
-    runBasedEscalation: { failedRuns: 1 } // Alert on first failure
   }
 })
