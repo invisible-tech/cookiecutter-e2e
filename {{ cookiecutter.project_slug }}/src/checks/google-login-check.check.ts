@@ -5,7 +5,7 @@ new BrowserCheck('google-login-check', {
   frequency: Frequency.EVERY_24H,
   locations: ['us-east-1'],
   code: {
-    entrypoint: './google-login.spec.ts',
+    entrypoint: './google-login-check.spec.ts',
   },
   retryStrategy: RetryStrategyBuilder.linearStrategy({
     baseBackoffSeconds: 60,

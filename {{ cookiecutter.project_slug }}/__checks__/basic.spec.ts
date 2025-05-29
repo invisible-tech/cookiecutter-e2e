@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { test, expect } from '@playwright/test'
 
 test('Homepage loads and displays expected content', async ({ page }) => {
