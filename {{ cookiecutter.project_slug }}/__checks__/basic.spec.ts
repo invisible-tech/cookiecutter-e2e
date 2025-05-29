@@ -9,7 +9,6 @@ test('Homepage loads and displays expected content', async ({ page }) => {
 
   await page.goto(baseUrl)
 
-  // Example: check that a key element like the site header is visible
-  const header = page.locator('h1') // Adjust to match your actual UI
-  await expect(header).toBeVisible()
+  const title = await page.title()
+  expect(title.length).toBeGreaterThan(0)
 })
