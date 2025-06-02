@@ -1,6 +1,6 @@
-# {{ cookiecutter.project_name }}
+# {{ cookiecutter.project\_name }}
 
-End-to-end (E2E) testing suite for `{{ cookiecutter.target_project }}`. This repository is intended to live independently of the main application and is responsible for running and deploying browser and API checks using [Checkly](https://checklyhq.com).
+End-to-end (E2E) testing suite for `{{ cookiecutter.target_project }}`. This repository is generated using the [Invisible Tech E2E template](https://github.com/invisible-tech/cookiecutter-e2e) and is configured to support Playwright and Checkly for UI and monitoring tests.
 
 ---
 
@@ -8,121 +8,74 @@ End-to-end (E2E) testing suite for `{{ cookiecutter.target_project }}`. This rep
 
 This repository provides a standalone E2E testing framework to:
 
-* Maintain tests separately from the application codebase.
-* Integrate Checkly for continuous monitoring and alerting.
-* Automate the deployment of updated checks on every push to `main`.
-
----
-
-## Prerequisites
-
-Ensure the following tools are installed:
-
-* [Bun](https://bun.sh/) (latest version recommended)
-* [Node.js](https://nodejs.org/) (only required if you’re using tooling that depends on Node runtime)
-* GitHub repository with:
-
-  * `CHECKLY_API_KEY` and `CHECKLY_ACCOUNT_ID` stored in GitHub Secrets.
+* Maintain tests independently from the application codebase.
+* Run Playwright tests locally and in CI.
+* Deploy monitoring checks using Checkly.
+* Allow teams to standardize and scale E2E testing across multiple services.
 
 ---
 
 ## Initial Setup
 
-1. **Install dependencies:**
+1. **Install dependencies** using [Bun](https://bun.sh):
 
    ```bash
    bun install
    ```
 
-2. **Create and populate a `.env` file:**
+   > If you see a Yarn-related error after the initial `bun install`, you can ignore it. Rerunning the command confirms successful installation.
 
-   Copy the example:
+2. **Copy and configure the environment file**:
 
    ```bash
    cp .env.example .env
    ```
 
-   Fill in the required values:
-
-   ```
-   CHECKLY_API_KEY=your-checkly-api-key
-   ENVIRONMENT_URL=https://staging-or-prod-url-to-test
-   ```
+   Then edit `.env` and set the `CHECKLY_API_KEY` and `CHECKLY_ACCOUNT_ID`
 
 ---
 
-## Running Tests Locally
+## Running Tests
 
-* **Run browser and API tests:**
+Run all available tests using:
 
-  ```bash
-  bunx playwright test
-  ```
+```bash
+bun run test
+```
 
-* **Run specific tests:**
+On a successful installation, the following example tests should pass:
 
-  ```bash
-  bunx playwright test path/to/test.spec.ts
-  ```
+* `__checks__/basic.spec.ts`
+* `src/checks/basic-check.spec.ts`
 
-* **View test report (if configured):**
+You can also run:
 
-  ```bash
-  bunx playwright show-report
-  ```
+```bash
+bun run test:ui         # Launches Playwright's UI test runner
+bun run test:headed     # Runs all tests in a visible browser window
+bun run test:single     # Runs the default example test in __checks__
+bun run test:report     # Opens the latest test report
+```
 
-* **Install Playwright Browsers (only needed once):**
-
-  ```bash
-  bunx playwright install --with-deps
-  ```
+> The included tests are placeholders to validate setup and should be replaced with real tests for the target application.
 
 ---
 
 ## Checkly Integration
 
-This repo uses the [Checkly CLI](https://www.checklyhq.com/docs/cli/) to deploy and manage monitoring checks.
+Checkly is configured for monitoring and can be used locally or in GitHub Actions.
 
-### Manual Deployment
-
-You can manually deploy the checks via CLI:
+### Commands
 
 ```bash
-bunx checkly deploy --force
+bun run checkly             # Run all Checkly-defined tests
+bun run checkly:list        # List all checks without running them
+bun run checkly:deploy      # Deploy checks to Checkly
+bun run checkly:login       # Log into Checkly CLI
+bun run checkly:whoami      # View your current Checkly account
 ```
 
-### Validate API credentials
-
-To ensure credentials are set:
-
-```bash
-echo $CHECKLY_API_KEY
-echo $CHECKLY_ACCOUNT_ID
-```
-
-### GitHub Actions
-
-A GitHub Actions workflow is included to automate Checkly deployments on every push to `main`.
-
-**Workflow path:**
-
-```
-.github/workflows/checkly.yml
-```
-
-**Environment Variables Required (GitHub Secrets):**
-
-* `CHECKLY_API_KEY`
-* `CHECKLY_ACCOUNT_ID`
-
-The workflow will:
-
-* Checkout the repository.
-* Set up Bun.
-* Install dependencies.
-* Install Playwright browsers.
-* Run tests.
-* Deploy tests to Checkly.
+Checkly tests are defined in `src/checks/*.check.ts` and configured via `checkly.config.ts`.
 
 ---
 
@@ -130,34 +83,21 @@ The workflow will:
 
 ```
 .
-├── src/
-│   └── checks/              # Checkly browser/API test definitions
-│       └── homepage.check.ts
-├── __checks__/              # Playwright test files
-│   └── basic.spec.ts
-├── .github/
-│   └── workflows/
-│       └── checkly.yml      # GitHub Actions workflow
-├── .env.example             # Template for environment variables
-├── bun.lockb                # Bun lockfile
-├── checkly.config.ts        # Checkly config (runtime, locations, frequency)
-├── package.json
-└── tsconfig.json
+├── src/checks/              # Checkly browser/API tests
+├── __checks__/              # Playwright test specs
+├── .github/workflows/       # GitHub Actions
+├── .env.example             # Sample environment config
+├── checkly.config.ts        # Checkly settings
+├── package.json             # Scripts and dependencies
+└── README.md
 ```
-
----
-
-## Modifying or Adding Tests
-
-1. Place Checkly checks under `src/checks/`, following the `.check.ts` convention.
-2. Place Playwright specs under `__checks__/`, following the `.spec.ts` convention.
-3. Frequency, runtime, and tags can be configured in `checkly.config.ts`.
 
 ---
 
 ## Notes
 
-* This repo **does not include** unit or integration tests for the main app.
+* Use `.env` to configure environment-specific settings (e.g. base URLs, credentials).
+* Generated tests are examples meant to validate infrastructure; replace them with application-specific checks.
+* This template avoids unnecessary dependencies and adheres to current Playwright and Checkly best practices.
 * Only E2E and monitoring concerns should live here.
-* Checkly CLI version is pinned in `package.json`.
 
